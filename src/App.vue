@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header></Header>
+    <Header class="wrapper"></Header>
     <Uploads></Uploads>
   </div>
 </template>
@@ -26,5 +26,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin: 0, 0, 0, 0;
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: 70% 30%;
 }
 </style>
