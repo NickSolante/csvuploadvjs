@@ -1,13 +1,13 @@
 <template>
   <header class="header">
-    <h1>CSV Uploads</h1>
-    <div id="nav"></div>
+    <h1>Zoning Tool</h1>
+    <div id="nav" />
   </header>
 </template>
 <script>
 export default {
-  name: "Header"
-};
+  name: 'Header'
+}
 </script>
 
 <style scoped>
