@@ -11,6 +11,7 @@
       pill
       variant="primary"
       class="paddMeAmedala"
+      @click="clickedChicken"
     >
       Drop chicken
     </b-button>
@@ -34,18 +35,11 @@ export default {
         Papa.parse(newVal, {
           header: true,
           complete: (results, file) => {
-            Object.size = function (obj) {
-              var size = 0
-              var key
-              for (key in obj) {
-                if (obj.hasOwnProperty(key)) size++
-              }
-              return size
-            };
             this.results = results.meta.fields
 
-            console.log(this.results)
+            // stores csv file header data
             const arrayResults = this.results
+            // stores all of results
             const arrayResultsData = results.data
 
             console.log(arrayResults[0])
@@ -53,13 +47,16 @@ export default {
             const arrayResultsThing = arrayResultsData.map(d => {
               return get(d, arrayResults[0], '-')
             })
-            // const arrayResultsThing = arrayResultsData.map(d => {
-            //   return result => result[arrayResults[0]];
-            // });
+
             console.log(arrayResultsThing)
           }
         })
       }
+    }
+  },
+  methods: {
+    clickedChicken: arrayResults => {
+      this.$emit('passData', arrayResults)
     }
   }
 }

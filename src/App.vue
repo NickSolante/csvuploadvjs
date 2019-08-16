@@ -4,7 +4,10 @@
     class="wrapper"
   >
     <Header class="heads" />
-    <Uploads class="inputs" />
+    <Uploads
+      class="inputs"
+      @passData="passToChild($event)"
+    />
   </div>
 </template>
 
@@ -17,6 +20,12 @@ export default {
   components: {
     Header,
     Uploads
+  },
+  methods: {
+    passToChild: e => {
+      const dataIsHere = e
+      console.log(dataIsHere)
+    }
   }
 }
 </script>
