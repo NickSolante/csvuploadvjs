@@ -6,7 +6,7 @@
     <Header class="heads" />
     <Uploads
       class="inputs"
-      @passData="passToChild($event)"
+      @passData="passToChild"
     />
   </div>
 </template>
@@ -22,9 +22,8 @@ export default {
     Uploads
   },
   methods: {
-    passToChild: e => {
-      const dataIsHere = e
-      console.log(dataIsHere)
+    passToChild (data) {
+      console.log(data)
     }
   }
 }
