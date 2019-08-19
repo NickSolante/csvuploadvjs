@@ -58,8 +58,10 @@ export default {
       if (this.file) {
         Papa.parse(this.file, {
           header: true,
-          complete: (results, file) => {
-            this.$emit({ passData: results, fieldsMeta: results.meta.fields })
+          complete: (results) => {
+            this.$emit( 'passData', results)
+            const file = results.meta.fields
+            this.$emit( 'passDataFile', file)
           }
         })
       }

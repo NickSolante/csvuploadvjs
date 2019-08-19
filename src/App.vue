@@ -7,6 +7,7 @@
     <Uploads
       class="inputs"
       @passData="passToChild"
+      @passDataFile="passToChildFile"
     />
   </div>
 </template>
@@ -22,10 +23,11 @@ export default {
     Uploads
   },
   methods: {
-    passToChild (dataSet, fields) {
+    passToChild (dataSet) {
       console.log(dataSet)
-
-      console.log(fields)
+    },
+    passToChildFile(fileDataSet){
+      console.log(fileDataSet)
     }
   }
 }
