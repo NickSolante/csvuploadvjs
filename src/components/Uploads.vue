@@ -59,7 +59,7 @@ export default {
         Papa.parse(this.file, {
           header: true,
           complete: (results, file) => {
-            this.$emit('passData', results)
+            this.$emit({ passData: results, fieldsMeta: results.meta.fields })
           }
         })
       }

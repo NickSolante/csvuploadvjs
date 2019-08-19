@@ -22,8 +22,10 @@ export default {
     Uploads
   },
   methods: {
-    passToChild (data) {
-      console.log(data)
+    passToChild (dataSet, fields) {
+      console.log(dataSet)
+
+      console.log(fields)
     }
   }
 }
