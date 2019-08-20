@@ -6,28 +6,58 @@
     <Header class="heads" />
     <Uploads
       class="inputs"
-      @passData="passToChild"
-      @passDataFile="passToChildFile"
+      @passData="(e) => {
+        dataSet = e }"
+      @passDataFile="(e) => {
+        headerOnFiles = e
+      }"
+    />
+    <CsvHeaders
+      :fields="$dataSet"
     />
   </div>
 </template>
 
 <script>
-import Uploads from './components/Uploads';
+import Uploads from './core/Uploads';
 import Header from './components/layout/Header';
+import CsvHeaders from './core/CsvHeaders';
 
 export default {
   name: 'App',
   components: {
     Header,
-    Uploads
+    Uploads,
+    CsvHeaders
+  },
+  props: {
+    dataSet: {
+      type: Object,
+      required: false,
+      default: () => {
+        return {}
+      }
+    },
+    headerOnFiles: {
+      type: Object,
+      required: false,
+      default: () => {
+        return {}
+      }
+    }
+  },
+  data () {
+    return {
+      dataFields: this.dataSet
+    }
   },
   methods: {
     passToChild (dataSet) {
       console.log(dataSet)
     },
-    passToChildFile(fileDataSet){
-      console.log(fileDataSet)
+    passToChildFile (fileDataSet) {
+      this.headerOnFiles = fileDataSet
+      console.log(this.dataSet.data)
     }
   }
 }
