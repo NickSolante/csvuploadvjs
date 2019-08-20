@@ -1,8 +1,6 @@
 <template>
   <div>
-    <p @thing="(e) => { console.log(e)}">
-      this is here
-    </p>
+    123
   </div>
 </template>
 
@@ -22,6 +20,11 @@ export default {
       default: () => {
         return {}
       }
+    }
+  },
+  watch: {
+    fields: function (newVal) {
+      console.log(newVal)
     }
   }
 }

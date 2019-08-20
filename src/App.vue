@@ -13,7 +13,7 @@
       }"
     />
     <CsvHeaders
-      :fields="$dataSet"
+      :fields="dataSet"
     />
   </div>
 </template>
@@ -30,24 +30,10 @@ export default {
     Uploads,
     CsvHeaders
   },
-  props: {
-    dataSet: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
-    },
-    headerOnFiles: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
-    }
-  },
   data () {
     return {
+      dataSet: {},
+      headerOnFiles: {},
       dataFields: this.dataSet
     }
   },
