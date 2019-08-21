@@ -8,9 +8,10 @@
       drop-placeholder="Drop file here..."
     />
     <b-button
+
       pill
       variant="primary"
-      class="paddMeAmedala"
+      class="paddMeAmedala mx-auto"
       @click="clickedChicken"
     >
       Drop chicken
@@ -58,10 +59,10 @@ export default {
       if (this.file) {
         Papa.parse(this.file, {
           header: true,
-          complete: (results) => {
-            this.$emit( 'passData', results)
+          complete: results => {
+            this.$emit('passData', results.data)
             const file = results.meta.fields
-            this.$emit( 'passDataFile', file)
+            this.$emit('passDataFile', file)
           }
         })
       }
@@ -79,6 +80,6 @@ export default {
   align-items: center;
 }
 .paddMeAmedala {
-  margin-top: 10px;
+  margin-top: 0.25rem;
 }
 </style>

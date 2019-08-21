@@ -1,16 +1,31 @@
 <template>
-  <div
-    id="app"
-    class="wrapper"
-  >
+  <div>
     <Header class="heads" />
-    <Uploads
-      class="inputs"
-      @passData="(e) => {
-        dataSet = e }"
-      @passDataFile="passToChildFile"
-    />
-    <CsvHeaders v />
+    <b-row>
+      <b-col />
+      <b-col>
+        <Uploads
+          class="inputs mt"
+          @passData="(e) => {
+            dataSet = e }"
+          @passDataFile="(e) => {
+            headerOnFiles = e
+          }"
+        />
+      </b-col>
+      <b-col />
+    </b-row>
+    <b-row>
+      <b-col />
+      <b-col>
+        <CsvHeaders
+          class="mx-auto mt"
+          :fields="dataSet"
+          :csvfile="headerOnFiles"
+        />
+      </b-col>
+      <b-col />
+    </b-row>
   </div>
 </template>
 
@@ -20,42 +35,23 @@ import Header from '../components/layout/Header';
 import CsvHeaders from './CsvHeaders';
 
 export default {
-  name: 'Core',
+  name: 'App',
   components: {
     Header,
     Uploads,
     CsvHeaders
   },
-  props: {
-    dataSet: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
-    },
-    headerOnFiles: {
-      type: Object,
-      required: false,
-      default: () => {
-        return {}
-      }
-    }
-  },
   data () {
-    return {}
-  },
-  methods: {
-    passToChild (dataSet) {
-      console.log(dataSet)
-    },
-    passToChildFile (fileDataSet) {
-      this.headerOnFiles = fileDataSet
-      console.log(this.dataSet.data)
+    return {
+      dataSet: [],
+      headerOnFiles: []
     }
   }
 }
 </script>
 
 <style lang='scss'>
+.mt {
+  margin-top: 0.25rem;
+}
 </style>
