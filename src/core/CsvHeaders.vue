@@ -1,5 +1,5 @@
 <template>
-  <div @variable="() => { csvfile !== null }">
+  <div v-if="headerVal !== []">
     <b-form>
       <b-row>
         <b-col>Zone from</b-col>
@@ -160,6 +160,8 @@
       </b-row>
     </b-form>
   </div>
+
+  <div v-else />
 </template>
 
 <script>
@@ -170,7 +172,7 @@ export default {
       type: Array,
       required: false,
       default: () => {
-        return {}
+        return {};
       }
     },
     // fields for header
@@ -178,30 +180,32 @@ export default {
       type: Array,
       required: false,
       default: () => {
-        return {}
+        return {};
       }
     }
   },
-  data () {
+  data() {
     return {
-      selected: null
-    }
+      selected: null,
+      headerVal: [],
+      newVal: []
+    };
   },
   watch: {
-    fields: function (newVal) {
-      newVal ? this.cloneCopy() : console.log('no new val')
+    fields: function(newVal) {
+      newVal ? this.cloneCopy() : console.log("no new val");
     },
-    csvfile: function (headerVal) {
-      console.table(headerVal)
+    csvfile: function(headerVal) {
+      console.table(headerVal);
     }
   },
   methods: {
-    cloneCopy () {
-      const dataCopy = JSON.parse(JSON.stringify(this.fields))
-      const headerCopy = JSON.parse(JSON.stringify(this.csvfile))
+    cloneCopy() {
+      const dataCopy = JSON.parse(JSON.stringify(this.fields));
+      const headerCopy = JSON.parse(JSON.stringify(this.csvfile));
     }
   }
-}
+};
 </script>
 
 <style scoped>
