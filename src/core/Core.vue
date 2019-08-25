@@ -20,7 +20,6 @@
       <b-col>
         <CsvHeaders
           class="mx-auto mt"
-          :fields="dataSet"
           :csvfile="headerOnFiles"
         />
       </b-col>
@@ -46,6 +45,9 @@ export default {
       dataSet: [],
       headerOnFiles: []
     }
+  },
+  method (){
+
   }
 }
 </script>

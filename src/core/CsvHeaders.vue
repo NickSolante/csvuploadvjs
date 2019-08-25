@@ -1,5 +1,5 @@
 <template>
-  <div v-if="headerVal !== []">
+  <div v-if="csvfile === []">
     <b-form>
       <b-row>
         <b-col>Zone from</b-col>
@@ -165,16 +165,11 @@
 </template>
 
 <script>
+
+import cloneDeep from 'lodash/cloneDeep'
 export default {
   props: {
-    // data from csv
-    fields: {
-      type: Array,
-      required: false,
-      default: () => {
-        return {};
-      }
-    },
+
     // fields for header
     csvfile: {
       type: Array,
@@ -196,13 +191,14 @@ export default {
       newVal ? this.cloneCopy() : console.log("no new val");
     },
     csvfile: function(headerVal) {
-      console.table(headerVal);
+      console.log(headerVal)
+      this.newVal = cloneCopy(headerVal)
+
     }
   },
   methods: {
-    cloneCopy() {
-      const dataCopy = JSON.parse(JSON.stringify(this.fields));
-      const headerCopy = JSON.parse(JSON.stringify(this.csvfile));
+    cloneCopy(csvHeader) {
+     return cloneDeep(csvHeader)
     }
   }
 };
