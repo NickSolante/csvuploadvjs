@@ -60,6 +60,7 @@ export default {
         Papa.parse(this.file, {
           header: true,
           complete: results => {
+            console.log(typeof results.data)
             this.$emit('passData', results.data)
             const file = results.meta.fields
             this.$emit('passDataFile', file)

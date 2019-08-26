@@ -1,5 +1,5 @@
 <template>
-  <div v-if="csvfile === []">
+  <div @variable="() => { csvfile !== {} }">
     <b-form>
       <b-row>
         <b-col>Zone from</b-col>
@@ -160,48 +160,48 @@
       </b-row>
     </b-form>
   </div>
-
-  <div v-else />
 </template>
 
 <script>
-
-import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from 'lodash/cloneDeep';
 export default {
   props: {
-
-    // fields for header
-    csvfile: {
-      type: Array,
+    // data from csv
+    fields: {
+      type: Object,
       required: false,
       default: () => {
-        return {};
+        return {}
+      }
+    },
+    // fields for header
+    csvfile: {
+      type: Object,
+      required: false,
+      default: () => {
+        return {}
       }
     }
   },
-  data() {
+  data () {
     return {
-      selected: null,
-      headerVal: [],
-      newVal: []
-    };
+      selected: null
+    }
   },
   watch: {
-    fields: function(newVal) {
-      newVal ? this.cloneCopy() : console.log("no new val");
-    },
-    csvfile: function(headerVal) {
-      console.log(headerVal)
-      this.newVal = cloneCopy(headerVal)
-
-    }
-  },
-  methods: {
-    cloneCopy(csvHeader) {
-     return cloneDeep(csvHeader)
+    // fields: function (newVal) {
+    //   newVal ? this.cloneCopy() : console.log('no new val')
+    // },
+    csvfile: function (headerVal) {
+      console.log('its here just not there')
+      console.table(headerVal)
     }
   }
-};
+  // ,
+  // methods: {
+  //   cloneCopy () {}
+  // }
+}
 </script>
 
 <style scoped>

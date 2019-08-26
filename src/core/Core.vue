@@ -32,6 +32,7 @@
 import Uploads from './Uploads';
 import Header from '../components/layout/Header';
 import CsvHeaders from './CsvHeaders';
+import { type } from 'os';
 
 export default {
   name: 'App',
@@ -40,14 +41,22 @@ export default {
     Uploads,
     CsvHeaders
   },
+
   data () {
     return {
-      dataSet: [],
-      headerOnFiles: []
+      dataSet: {},
+      headerOnFiles: {},
+      newHeader: []
     }
   },
-  method (){
-
+  watch: {
+    dataSet: function (data) {
+      console.log(data)
+    },
+    headerOnFiles: function (data) {
+      console.log('core ' + typeof data)
+      console.log(data)
+    }
   }
 }
 </script>
