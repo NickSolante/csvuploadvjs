@@ -21,6 +21,9 @@
         <CsvHeaders
           class="mx-auto mt"
           :csvfile="headerOnFiles"
+          @mappedHeaderData="(e) =>{
+            newHeader = e
+          }"
         />
       </b-col>
       <b-col />
@@ -29,36 +32,39 @@
 </template>
 
 <script>
-import Uploads from './Uploads';
-import Header from '../components/layout/Header';
-import CsvHeaders from './CsvHeaders';
-import { type } from 'os';
+import Uploads from "./Uploads";
+import Header from "../components/layout/Header";
+import CsvHeaders from "./CsvHeaders";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
     Uploads,
     CsvHeaders
   },
 
-  data () {
+  data() {
     return {
       dataSet: {},
       headerOnFiles: {},
       newHeader: []
-    }
+    };
   },
   watch: {
-    dataSet: function (data) {
-      console.log(data)
+    dataSet: function(data) {
+      console.log(data);
     },
-    headerOnFiles: function (data) {
-      console.log('core ' + typeof data)
-      console.log(data)
+    headerOnFiles: function(data) {
+      console.log("core " + typeof data);
+      console.log(data);
+    },
+    newHeader: function(data) {
+      console.log("this is sparta");
+      console.table(data);
     }
   }
-}
+};
 </script>
 
 <style lang='scss'>

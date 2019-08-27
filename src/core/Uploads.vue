@@ -29,31 +29,7 @@ export default {
       header: true
     }
   },
-  // watch: {
-  //   file: function (newVal) {
-  //     if (newVal) {
-  //       Papa.parse(newVal, {
-  //         header: true,
-  //         complete: (results, file) => {
-  //           this.results = results.meta.fields
 
-  //           // stores csv file header data
-  //           const arrayResults = this.results
-  //           // stores all of results
-  //           const arrayResultsData = results.data
-
-  //           console.log(arrayResults[0])
-  //           console.log(arrayResultsData)
-  //           const arrayResultsThing = arrayResultsData.map(d => {
-  //             return get(d, arrayResults[0], '-')
-  //           })
-
-  //           console.log(arrayResultsThing)
-  //         }
-  //       })
-  //     }
-  //   }
-  // },
   methods: {
     clickedChicken () {
       if (this.file) {
