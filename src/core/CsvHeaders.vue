@@ -275,21 +275,6 @@ export default {
   },
   methods: {
     onClickDrop () {
-      console.log(
-        this.postcode,
-        this.town,
-        this.zoneTo,
-        this.zoneFrom,
-        this.service,
-        this.state,
-        this.country,
-        this.parentZone,
-        this.delTimeMin,
-        this.delTimeMax,
-        this.carrierTimes,
-        this.hub
-      )
-
       let dataPass = [
         this.postcode,
         this.town,
@@ -299,22 +284,18 @@ export default {
         this.state,
         this.country,
         this.parentZone,
+        this.delTime,
         this.delTimeMin,
         this.delTimeMax,
         this.carrierTimes,
         this.hub
       ]
-      let refinedHeader = []
-      for (let i = 0; i === dataPass.length; i++) {
-        if (dataPass[i] === null) {
-          i++
-        } else {
-          refinedHeader.push(dataPass[i])
-        }
-      }
+      let refinedHeader = dataPass.filter(function (str) {
+        return str !== null
+      })
 
       console.table(refinedHeader)
-      this.$emit('mappedHeaderData', dataPass)
+      this.$emit('mappedHeaderData', refinedHeader)
     }
   }
 }

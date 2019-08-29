@@ -32,39 +32,49 @@
 </template>
 
 <script>
-import Uploads from "./Uploads";
-import Header from "../components/layout/Header";
-import CsvHeaders from "./CsvHeaders";
+import Uploads from './Uploads';
+import Header from '../components/layout/Header';
+import CsvHeaders from './CsvHeaders';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Header,
     Uploads,
     CsvHeaders
   },
 
-  data() {
+  data () {
     return {
       dataSet: {},
       headerOnFiles: {},
-      newHeader: []
-    };
+      newHeader: [],
+      filteredCsv: []
+    }
   },
   watch: {
-    dataSet: function(data) {
-      console.log(data);
+    dataSet: function (data) {
+      console.table(data)
     },
-    headerOnFiles: function(data) {
-      console.log("core " + typeof data);
-      console.log(data);
+    headerOnFiles: function (data) {
+      console.log('core ' + typeof data)
+      console.log(data)
     },
-    newHeader: function(data) {
-      console.log("this is sparta");
-      console.table(data);
+    newHeader: function (data) {
+      console.log('this is coming from the core')
+      this.filteredCsv = this.filterIt(data, this.dataSet)
+    }
+  },
+  methods: {
+    filterIt (headers, largeDataSet) {
+      const newFile = largeDataSet.map(largeDataSet => {
+        return Object.keys(largeDataSet).filter(key => key === 'b')
+      })
+      console.log(newFile)
+      return newFile
     }
   }
-};
+}
 </script>
 
 <style lang='scss'>

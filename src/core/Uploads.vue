@@ -1,21 +1,35 @@
 /* eslint-disable */
 <template>
   <div>
-    <b-form-file
-      v-model="file"
-      class="bordering"
-      placeholder="Choose a file or drop it here..."
-      drop-placeholder="Drop file here..."
-    />
-    <b-button
+    <b-container class="bv-example-row">
+      <b-row class="justify-content-md-center">
+        <b-col
+          cols="50"
+          lg="auto"
+        >
+          <b-form-file
+            v-model="file"
+            class="bordering"
+            placeholder="Choose a file or drop it here..."
+            drop-placeholder="Drop file here..."
+          />
+        </b-col>
+        <b-col
+          cols="50"
+          lg="auto"
+        >
+          <b-button
 
-      pill
-      variant="primary"
-      class="paddMeAmedala mx-auto"
-      @click="clickedChicken"
-    >
-      Drop chicken
-    </b-button>
+            pill
+
+            class="paddMeAmedala mx-auto"
+            @click="clickedChicken"
+          >
+            Big Button
+          </b-button>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 <script>
