@@ -218,7 +218,7 @@
       class="paddMeAmedala mx-auto"
       @click="onClickDrop"
     >
-      Drop chicken
+      Dont touch me
     </b-button>
   </div>
 </template>

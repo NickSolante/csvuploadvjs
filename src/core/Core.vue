@@ -17,6 +17,7 @@
     </b-row>
     <b-row>
       <b-col />
+
       <b-col>
         <CsvHeaders
           class="mx-auto mt"
@@ -35,13 +36,15 @@
 import Uploads from './Uploads';
 import Header from '../components/layout/Header';
 import CsvHeaders from './CsvHeaders';
+import functionalButton from './functionalButton';
 
 export default {
   name: 'App',
   components: {
     Header,
     Uploads,
-    CsvHeaders
+    CsvHeaders,
+    functionalButton
   },
 
   data () {
@@ -56,10 +59,7 @@ export default {
     dataSet: function (data) {
       console.table(data)
     },
-    headerOnFiles: function (data) {
-      console.log('core ' + typeof data)
-      console.log(data)
-    },
+
     newHeader: function (data) {
       console.log('this is coming from the core')
       this.filteredCsv = this.filterIt(data, this.dataSet)
@@ -67,11 +67,32 @@ export default {
   },
   methods: {
     filterIt (headers, largeDataSet) {
-      const newFile = largeDataSet.map(largeDataSet => {
-        return Object.keys(largeDataSet).filter(key => key === 'b')
+      const result = largeDataSet.map(data => {
+        const wantedData = {}
+
+        for (let index = 0; index < headers.length; index++) {
+          wantedData[headers[index]] = data[headers[index]]
+        }
+
+        return wantedData
       })
-      console.log(newFile)
-      return newFile
+
+      console.log(result)
+
+      // var words = [
+      //   { nick: 1, age: 1 },
+      //   { nick: 2, age: 2 },
+      //   { nick: 3, age: 3 }
+      // ]
+      // const head = ['nick', 'age']
+      // const result = words.map(words => {
+      //   return Object.keys(words).filter(
+      //     key => key === head.map(head => head.value)
+      //   )
+      // })
+
+      // console.log(result)
+      // expected output: Array ["exuberant", "destruction", "present"]
     }
   }
 }
