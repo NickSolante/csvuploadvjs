@@ -1,17 +1,11 @@
 <template>
   <div>
     <b-row class="mx-auto">
-      <b-button>Button</b-button>
-    </b-row>
-    <b-row>
-      <b-button>Button</b-button>
-    </b-row>
-    <b-row>
-      <b-button>Button</b-button>
-    </b-row>
-
-    <b-row>
-      <b-button>Button</b-button>
+      <b-col />
+      <b-col>
+        <b-button>Button</b-button>
+      </b-col>
+      <b-col />
     </b-row>
   </div>
 </template>

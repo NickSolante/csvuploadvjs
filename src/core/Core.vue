@@ -1,45 +1,66 @@
 <template>
   <div>
     <Header class="heads" />
-    <b-row>
-      <b-col />
-      <b-col>
-        <Uploads
-          class="inputs mt"
-          @passData="(e) => {
-            dataSet = e }"
-          @passDataFile="(e) => {
-            headerOnFiles = e
-          }"
-        />
-      </b-col>
-      <b-col />
-    </b-row>
-    <b-row>
-      <b-col />
 
-      <b-col>
-        <CsvHeaders
-          class="mx-auto mt"
-          :csvfile="headerOnFiles"
-          @mappedHeaderData="(e) =>{
-            newHeader = e
-          }"
-        />
-      </b-col>
-      <b-col />
-    </b-row>
+    <b-container fluid>
+      <b-row v-if="vueVar === 0">
+        <!-- throw in an empty column -->
+        <b-col />
+        <b-col>
+          <Uploads
+            class="inputs mt"
+            @passData="(e) => {
+              dataSet = e }"
+            @passDataFile="(e) => {
+              headerOnFiles = e
+            }"
+          />
+          <ul id="example-1">
+            <li
+              v-for="(Value, index) of headerOnFiles"
+              :key="index"
+            >
+              {{ Value }}
+            </li>
+          </ul>
+        </b-col>
+        <b-col
+          v-if="Object.keys(headerOnFiles).length > 0"
+        >
+          <CsvHeaders
+            class="mx-auto mt"
+            :csvfile="headerOnFiles"
+            @mappedHeaderData="(e) =>{
+              newHeader = e
+            }"
+          />
+        </b-col>
+        <!-- throw in an empty column -->
+        <b-col />
+      </b-row>
+
+      <b-row v-else>
+        <b-col>
+          <functionalButton />
+          <b-row>
+            <b-col>
+              <functionalButton />
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+</b-container>
   </div>
 </template>
 
 <script>
-import Uploads from './Uploads';
-import Header from '../components/layout/Header';
-import CsvHeaders from './CsvHeaders';
-import functionalButton from './functionalButton';
+import Uploads from "./Uploads";
+import Header from "../components/layout/Header";
+import CsvHeaders from "./CsvHeaders";
+import functionalButton from "./functionalButton";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
     Uploads,
@@ -47,38 +68,41 @@ export default {
     functionalButton
   },
 
-  data () {
+  data() {
     return {
       dataSet: {},
       headerOnFiles: {},
       newHeader: [],
-      filteredCsv: []
-    }
+      filteredCsv: [],
+      vueVar: 0
+    };
   },
   watch: {
-    dataSet: function (data) {
-      console.table(data)
+    dataSet: function(data) {
+      console.table(data);
     },
 
-    newHeader: function (data) {
-      console.log('this is coming from the core')
-      this.filteredCsv = this.filterIt(data, this.dataSet)
+    newHeader: function(data) {
+      console.log("this is coming from the core");
+      this.filteredCsv = this.filterIt(data, this.dataSet);
+      this.vueVar = 1;
     }
   },
   methods: {
-    filterIt (headers, largeDataSet) {
+    filterIt(headers, largeDataSet) {
       const result = largeDataSet.map(data => {
-        const wantedData = {}
+        const wantedData = {};
 
         for (let index = 0; index < headers.length; index++) {
-          wantedData[headers[index]] = data[headers[index]]
+          wantedData[headers[index]] = data[headers[index]];
         }
 
-        return wantedData
-      })
+        return wantedData;
+      });
 
-      console.log(result)
+      console.log(result);
 
+      // must configure to run map and filter
       // var words = [
       //   { nick: 1, age: 1 },
       //   { nick: 2, age: 2 },
@@ -95,7 +119,7 @@ export default {
       // expected output: Array ["exuberant", "destruction", "present"]
     }
   }
-}
+};
 </script>
 
 <style lang='scss'>
