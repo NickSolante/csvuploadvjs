@@ -3,7 +3,7 @@
     <Header class="heads" />
 
     <b-container fluid>
-      <b-row v-if="vueVar === 0">
+      <b-row v-if="vueVar !== 0">
         <!-- throw in an empty column -->
         <b-col />
         <b-col>
@@ -40,27 +40,47 @@
       </b-row>
 
       <b-row v-else>
-        <b-col>
-          <functionalButton />
+        <b-container>
           <b-row>
             <b-col>
-              <functionalButton />
+              <h1 class="justify-content-md-center">
+                Actions
+              </h1>
             </b-col>
           </b-row>
-        </b-col>
+
+          <b-row>
+            <b-col>
+              <b-button>
+                Process Hubs
+              </b-button>
+            </b-col>
+            <b-col>
+              <b-button>Location Carrier Zones</b-button>
+            </b-col>
+            <b-col>
+              <b-button>Carrier Times</b-button>
+            </b-col>
+            <b-col>
+              <b-button :click="CarrierTimesExtended">
+                Carrier Times Extended
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-container>
       </b-row>
-</b-container>
+    </b-container>
   </div>
 </template>
 
 <script>
-import Uploads from "./Uploads";
-import Header from "../components/layout/Header";
-import CsvHeaders from "./CsvHeaders";
-import functionalButton from "./functionalButton";
+import Uploads from './Uploads';
+import Header from '../components/layout/Header';
+import CsvHeaders from './CsvHeaders';
+import functionalButton from './functionalButton';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Header,
     Uploads,
@@ -68,39 +88,39 @@ export default {
     functionalButton
   },
 
-  data() {
+  data () {
     return {
       dataSet: {},
       headerOnFiles: {},
       newHeader: [],
       filteredCsv: [],
       vueVar: 0
-    };
+    }
   },
   watch: {
-    dataSet: function(data) {
-      console.table(data);
+    dataSet: function (data) {
+      console.table(data)
     },
 
-    newHeader: function(data) {
-      console.log("this is coming from the core");
-      this.filteredCsv = this.filterIt(data, this.dataSet);
-      this.vueVar = 1;
+    newHeader: function (data) {
+      console.log('this is coming from the core')
+      this.filteredCsv = this.filterIt(data, this.dataSet)
+      this.vueVar = 1
     }
   },
   methods: {
-    filterIt(headers, largeDataSet) {
+    filterIt (headers, largeDataSet) {
       const result = largeDataSet.map(data => {
-        const wantedData = {};
+        const wantedData = {}
 
         for (let index = 0; index < headers.length; index++) {
-          wantedData[headers[index]] = data[headers[index]];
+          wantedData[headers[index]] = data[headers[index]]
         }
 
-        return wantedData;
-      });
+        return wantedData
+      })
 
-      console.log(result);
+      console.log(result)
 
       // must configure to run map and filter
       // var words = [
@@ -117,9 +137,10 @@ export default {
 
       // console.log(result)
       // expected output: Array ["exuberant", "destruction", "present"]
-    }
+    },
+    CarrierTimeExtended () {}
   }
-};
+}
 </script>
 
 <style lang='scss'>
