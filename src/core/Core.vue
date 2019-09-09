@@ -51,7 +51,7 @@
               <b-button>Carrier Times</b-button>
             </b-col>
             <b-col>
-              <b-button :click="CarrierTimesExtended">Carrier Times Extended</b-button>
+              <b-button @click="CarrierTimesExtended()">Carrier Times Extended</b-button>
             </b-col>
           </b-row>
         </b-container>
@@ -86,9 +86,9 @@ export default {
     };
   },
   watch: {
-    dataSet: function(data) {
-      console.table(data);
-    },
+    // dataSet: function(data) {
+    //   console.table(data);
+    // },
 
     newHeader: function(data) {
       console.log("this is coming from the core");
@@ -126,10 +126,17 @@ export default {
       // console.log(result)
       // expected output: Array ["exuberant", "destruction", "present"]
     },
-    CarrierTimeExtended() {
-      let blob = new ([export_carrier_times()], { type: "text/csv" })();
+    CarrierTimesExtended() {
+      let blob = new ([export_carrier_times_extended()],
+      { type: "text/csv" })();
+      generateDownload(
+        blob,
+        "download-btn",
+        filename + "-extendedCarrierTimes"
+      );
     },
-    export_carrier_times() {
+
+    export_carrier_times_extended() {
       console.log(this.largeDataSet);
       let data = this.largeDataSet.map(element => ({
         uuid: element.uuid,
@@ -143,6 +150,31 @@ export default {
       }));
       console.log(data);
       return Papa.unparse(data);
+    },
+
+    findLocationByPostcode(postcode, country, town) {
+      console.log("pct " + postcode + country + town);
+
+      if (!postcode || !country || !town)
+        buildAlert(
+          null,
+          `${postcode || ""} ${country || ""} ${town || ""}`,
+          "missing-keys"
+        );
+
+      let filteredArray = db_locations.filter(data => {
+        return (
+          data.location_postcode == postcode &&
+          data.location_country == country &&
+          data.location_town == town.toUpperCase()
+        );
+      });
+
+      if (filteredArray.length < 1) {
+        return "NO_LOCATION_FOUND";
+      } else {
+        return filteredArray[0].location_id;
+      }
     }
   }
 };
