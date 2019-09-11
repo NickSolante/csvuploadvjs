@@ -3,7 +3,7 @@
     <Header class="heads" />
 
     <b-container fluid>
-      <b-row v-if="vueVar === 0">
+      <b-row>
         <!-- throw in an empty column -->
         <b-col />
         <b-col>
@@ -16,7 +16,12 @@
             }"
           />
           <ul id="example-1">
-            <li v-for="(Value, index) of headerOnFiles" :key="index">{{ Value }}</li>
+            <li
+              v-for="(Value, index) of headerOnFiles"
+              :key="index"
+            >
+              {{ Value }}
+            </li>
           </ul>
         </b-col>
         <b-col v-if="Object.keys(headerOnFiles).length > 0">
@@ -31,44 +36,20 @@
         <!-- throw in an empty column -->
         <b-col />
       </b-row>
-
-      <b-row v-else>
-        <b-container>
-          <b-row>
-            <b-col>
-              <h1 class="justify-content-md-center">Actions</h1>
-            </b-col>
-          </b-row>
-
-          <b-row>
-            <b-col>
-              <b-button>Process Hubs</b-button>
-            </b-col>
-            <b-col>
-              <b-button>Location Carrier Zones</b-button>
-            </b-col>
-            <b-col>
-              <b-button>Carrier Times</b-button>
-            </b-col>
-            <b-col>
-              <b-button @click="CarrierTimesExtended()">Carrier Times Extended</b-button>
-            </b-col>
-          </b-row>
-        </b-container>
-      </b-row>
+      <functionalButton :ransak="vueVar" />
     </b-container>
   </div>
 </template>
 
 <script>
-import Uploads from "./Uploads";
-import Header from "../components/layout/Header";
-import CsvHeaders from "./CsvHeaders";
-import functionalButton from "./functionalButton";
-import Papa from "papaparse";
+import Uploads from './Uploads';
+import Header from '../components/layout/Header';
+import CsvHeaders from './CsvHeaders';
+import functionalButton from './functionalButton';
+import Papa from 'papaparse';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Header,
     Uploads,
@@ -76,39 +57,40 @@ export default {
     functionalButton
   },
 
-  data() {
+  data () {
     return {
       dataSet: {},
       headerOnFiles: {},
       newHeader: [],
       filteredCsv: [],
       vueVar: 0
-    };
+    }
   },
   watch: {
     // dataSet: function(data) {
     //   console.table(data);
     // },
 
-    newHeader: function(data) {
-      console.log("this is coming from the core");
-      this.filteredCsv = this.filterIt(data, this.dataSet);
-      this.vueVar = 1;
+    newHeader: function (data) {
+      console.log('this is coming from the core')
+      this.filteredCsv = this.filterIt(data, this.dataSet)
+      this.vueVar = 1
     }
   },
   methods: {
-    filterIt(headers, largeDataSet) {
+    ZoneFunc (val) {},
+    filterIt (headers, largeDataSet) {
       const result = largeDataSet.map(data => {
-        const wantedData = {};
+        const wantedData = {}
 
         for (let index = 0; index < headers.length; index++) {
-          wantedData[headers[index]] = data[headers[index]];
+          wantedData[headers[index]] = data[headers[index]]
         }
 
-        return wantedData;
-      });
+        return wantedData
+      })
 
-      console.log(result);
+      console.log(result)
 
       // must configure to run map and filter
       // var words = [
@@ -126,18 +108,18 @@ export default {
       // console.log(result)
       // expected output: Array ["exuberant", "destruction", "present"]
     },
-    CarrierTimesExtended() {
+    CarrierTimesExtended () {
       let blob = new ([export_carrier_times_extended()],
-      { type: "text/csv" })();
+      { type: 'text/csv' })()
       generateDownload(
         blob,
-        "download-btn",
-        filename + "-extendedCarrierTimes"
-      );
+        'download-btn',
+        filename + '-extendedCarrierTimes'
+      )
     },
 
-    export_carrier_times_extended() {
-      console.log(this.largeDataSet);
+    export_carrier_times_extended () {
+      console.log(this.largeDataSet)
       let data = this.largeDataSet.map(element => ({
         uuid: element.uuid,
         carrier_id: element.carrier_id,
@@ -147,37 +129,38 @@ export default {
         travel_time: element.travel_time,
         travel_time_min: element.travel_time_min,
         travel_time_max: element.travel_time_max
-      }));
-      console.log(data);
-      return Papa.unparse(data);
+      }))
+      console.log(data)
+      return Papa.unparse(data)
     },
 
-    findLocationByPostcode(postcode, country, town) {
-      console.log("pct " + postcode + country + town);
+    findLocationByPostcode (postcode, country, town) {
+      console.log('pct ' + postcode + country + town)
 
-      if (!postcode || !country || !town)
+      if (!postcode || !country || !town) {
         buildAlert(
           null,
-          `${postcode || ""} ${country || ""} ${town || ""}`,
-          "missing-keys"
-        );
+          `${postcode || ''} ${country || ''} ${town || ''}`,
+          'missing-keys'
+        )
+      }
 
       let filteredArray = db_locations.filter(data => {
         return (
           data.location_postcode == postcode &&
           data.location_country == country &&
           data.location_town == town.toUpperCase()
-        );
-      });
+        )
+      })
 
       if (filteredArray.length < 1) {
-        return "NO_LOCATION_FOUND";
+        return 'NO_LOCATION_FOUND';
       } else {
-        return filteredArray[0].location_id;
+        return filteredArray[0].location_id
       }
     }
   }
-};
+}
 </script>
 
 <style lang='scss'>

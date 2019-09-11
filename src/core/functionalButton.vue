@@ -1,16 +1,52 @@
 <template>
   <div>
-    <b-row class="mx-auto">
-      <b-col />
-      <b-col>
-        <b-button>Button</b-button>
-      </b-col>
-      <b-col />
+    <b-row>
+      <b-container>
+        <b-row>
+          <b-col>
+            <h1 class="justify-content-md-center">
+              Actions
+            </h1>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <b-button @click="ZoneFunc(1)">
+              Process Hubs
+            </b-button>
+          </b-col>
+          <b-col>
+            <b-button @click="ZoneFunc(2)">
+              Location Carrier Zones
+            </b-button>
+          </b-col>
+          <b-col>
+            <b-button @click="ZoneFunc(3)">
+              Carrier Times
+            </b-button>
+          </b-col>
+          <b-col>
+            <b-button @click="ZoneFunc(4)">
+              Carrier Times Extended
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-container>
     </b-row>
   </div>
 </template>
 <script>
-export default {}
+export default {
+  props: {
+    vueVar: {
+      type: Number,
+      default: () => {
+        return {}
+      }
+    }
+  }
+}
 </script>
 
 <style>
