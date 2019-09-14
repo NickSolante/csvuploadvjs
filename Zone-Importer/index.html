@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+ <link rel="stylesheet" href="jquery.toast.css">
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script src="./bootstrap3-typeahead.js"></script>
+
+    <script src="papaparse.js"></script>
+<!--     <script src="jquery.toast.js"></script>
+ -->    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="database/database_locations.js"></script>
+    <script src="database/db_zones.js"></script>
+    <script src="database/database_hubs.js"></script>
+
+
+
+    <style>
+        .dropdown-menu>li>a:hover,
+        .dropdown-menu>li>a:focus {
+            text-decoration: none;
+            color: #262626;
+            background-color: #f5f5f5;
+        }
+
+        .dropdown-menu>.active>a,
+        .dropdown-menu>.active>a:hover,
+        .dropdown-menu>.active>a:focus {
+            color: #fff;
+            text-decoration: none;
+            outline: 0;
+            background-color: #337ab7;
+        }
+
+        #drop-area {
+            width: 100%;
+            border-style: dotted;
+            background-color: #EFE2E2;
+        }
+
+        .my-form {
+            text-align: center;
+        }
+
+/*        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333333;
+        }
+
+        li {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px;
+            text-decoration: none;
+        }
+
+        li :hover {
+            background-color: aqua;
+        }
+
+        ul li :hover {
+            background-color: yellow;
+
+        }*/
+    </style>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="app">
+
+        <div class="container-fluid">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h2 class="card-title" style="text-align:center;">Zone Import Tool</h2>
+                    <button id="dl_db"  style="float: right;" type="button" class="btn btn-primary">Update Cache</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <br>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Upload</h5>
+                            <div id="drop-area">
+                                <br>
+                                <form class="my-form">
+                                    <input type="file" id="uploadbtn" multiple accept="*">
+                                </form>
+                                <br>
+                                <button id="submit" type="button" class="btn btn-primary">Get Headers</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Headers</h5>
+                            <ul id="headers">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Example Row</h5>
+                            <ul id="example-row">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <br>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Options</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6> Headers </h6>
+                                    <ul>
+                                        <li>
+                                            <label for="basic-url">Zone From</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'zonefrom')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Service</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'zonefrom')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Zone (Zone to if times)</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'zoneto')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Town</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'town')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">State</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'state')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Postcode</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'postcode')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Country</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'country')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Parent Zone</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'parent')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Delivery Time</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'time')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Delivery Time Max</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'maxtime')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Delivery Time Min</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'mintime')">
+                                            </select>
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Hub</label>
+                                            <select class="form-control options"
+                                                    onchange="GetIndexOfHeader(this.value,'hub')">
+                                            </select>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-6">
+                                    <h6> Raw Values (will be inserted into each row) </h6>
+                                    <ul>
+                                        <li>
+                                            <label for="basic-url">Carrier</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'carrier')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-url">Zone From</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'zonefrom')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Service</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'service')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Zone (Zone to if times)</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'zoneto')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Town</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'town')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">State</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'state')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Postcode</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'postcode')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Country</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'country')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Parent Zone</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'parent')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Delivery Time</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'time')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Delivery Time Max</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'maxtime')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Delivery Time Min</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'mintime')">
+                                        </li>
+                                        <li>
+                                            <label for="basic-earl">Hub</label>
+                                            <input type="text" class="form-control basic-earl typeahead" 
+                                                    onchange="UpdateRawValues(this.value,'hub')">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <br>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Remove Data</h5>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <label for="basic-url">Key</label>
+                                    <br>
+                                    <select class="form-control" id="destroyKey">
+
+                                    </select>
+                                </div>
+                                <div class="col-sm">
+                                    <label for="basic-url">Value</label>
+
+                                    <input type="text" class="form-control" id="destroyValue" aria-describedby="basic-addon3">
+                                </div>
+                                <div class="col-sm">
+                                    <label for="basic-url">Action</label><br>
+                                    <button id="destroy" type="button" onClick="destroyKey()"
+                                        class="btn btn-danger">Destroy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Actions</h5>
+                            <div class="row" style="text-align: center;">
+                                <div class="col-sm">
+                                    <button id="ll" type="button" class="btn btn-primary">Get Headers</button>
+                                </div>
+                                <div class="col-sm">
+                                    <button id="process" type="button" class="btn btn-primary">Process Location Carrier Zones</button>
+                                </div>
+                                <div class="col-sm">
+                                    <button id="process_hub" type="button" class="btn btn-primary">Process Hubs</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row" style="text-align: center;">
+                                <div class="col-sm">
+                                    <button id="process_carrier_times" type="button" class="btn btn-primary">Process Carrier Times</button>
+                                </div>
+                                <div class="col-sm">
+                                    <button id="process_extended_times" type="button" class="btn btn-primary">Process Carrier Times Ext.</button>
+                                </div>
+                                <div class="col-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Failed Downloads</h5>
+                             <div class="row">
+                                <div class="col-sm">
+                                    <h4>Location_Carrier_Zones</h4>
+                                    <br>
+                                    <h5 id="lcz_out"></h5>
+                                    <a class="btn btn-success" id="lcz_dl">Download Failed (for retry)</a>
+
+                                </div>
+                                <div class="col-sm">
+                                    <h4>Missing Zones</h4>
+                                    <br>
+                                    <h5 id="zone_out"></h5>
+                                    <a class="btn btn-success" id="zone_dl">Download Missing (for insert to DB)</a>
+                                </div>
+                                <div class="col-sm">
+                                    <h4>Missing Hubs</h4>
+                                    <br>
+                                    <h5 id="hub_out"></h5>
+                                    <a class="btn btn-success" id="hub_dl">Download Missing (for insert to DB</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                   <div class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title"> Exports</h5>
+                        <div class="row">
+                            <div class="col-sm">
+                                <button id="ect" type="button" class="btn btn-info">Export carrier_times</button>
+                            </div>
+                            <div class="col-sm">
+                                <button id="ecte" type="button" class="btn btn-info">Export
+                                    carrier_times_extended</button>
+                            </div>
+                            <div class="col-sm">
+                                <button id="elcz" type="button" class="btn btn-info">Export
+                                    location_carrier_zones</button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm">
+                                <button id="emh" type="button" class="btn btn-info">Export
+                                    dict_hub</button>
+                            </div>
+                            <div class="col-sm">
+                                <button id="reset" type="button" class="btn btn-danger">Reset</button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row" style="text-align: center;">
+                            <div class="col-sm">
+                                <a class="btn btn-success" id="download-btn" href="">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            
+            <br>
+            
+            <br>
+            
+            <br>
+            
+
+            <br>
+
+
+            <div class="card" style="width: 100%; display:none">
+                <div class="card-body">
+                    <h5 class="card-title">Raw Input <h6>(will be inserted into each row)</h6></h5>
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="basic-earl">Carrier</label>
+                            <br><br>
+                            <input type="text" class="form-control basic-earl typeahead" onchange="UpdateRawValues(this.value,'carrier')"
+                                id="basic-earl" aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-earl">Service</label>
+                            <br><br>
+                            <input type="text" class="form-control basic-earl typeahead" onchange="UpdateRawValues(this.value,'service_id')"
+                                id="basic-earl" aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-url">Zone From</label>
+                            <br><br>
+                            <input type="text" class="typeahead form-control "
+                                onchange="UpdateRawValues(this.value,'zonefrom')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-url">Zone (Zone to if times)</label>
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value,'zoneto')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-url">Town Header</label>
+                            <br><br>
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value,'town')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-url">State Header</label>
+                            <br><br>
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value,'state')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-url">Postcode Header</label>
+
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value,'postcode')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                         <div class="col-sm">
+                            <label for="basic-url">Country Header</label>
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value,'country')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                       
+                        
+                    </div>
+                    <br>
+                    <div class="row">
+                         <div class="col-sm">
+                            <label for="basic-url">Parent Zone Header</label>
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value,'parent')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-url">Delivery Time Header</label>
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value, 'time')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-url">Delivery Time Max</label>
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value, 'maxtime')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-url">Delivery Time Min</label>
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value, 'mintime')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                        <div class="col-sm">
+                            <label for="basic-url">Hub</label>
+                            <input type="text" class="form-control typeahead"
+                                onchange="UpdateRawValues(this.value, 'hub')" id="basic-url"
+                                aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+             <div class="card" id="progress_card" style="width: 100%; display: none; text-align:center">
+                <div class="card-body">
+                    <h5 class="card-title">Progress</h5>
+                    <video src="https://external-preview.redd.it/Ma8uZyMui3xVMVz8W8JGtwT4Lrui30D8WGnrwTR2toE.gif?format=mp4&s=456bce4280f94bb1aec1633a4ab8afc7b870d884" width="400px" height="400px" autoplay>
+                </div>
+            </div>
+            <br>
+            
+            <br>
+             
+
+
+        </div>
+    </div>
+    <script src="main.js"></script>
+
+</body>
+
+</html>
