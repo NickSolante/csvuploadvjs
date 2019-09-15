@@ -33,34 +33,34 @@
   </div>
 </template>
 <script>
-import Papa from "papaparse";
-import get from "lodash/get";
+import Papa from 'papaparse'
+import get from 'lodash/get'
 
 export default {
-  data() {
+  data () {
     return {
       file: null,
       header: true
-    };
+    }
   },
 
   methods: {
-    clickedChicken() {
+    clickedChicken () {
       if (this.file) {
         Papa.parse(this.file, {
           header: true,
           complete: results => {
-            console.log(typeof results.data);
-            this.$emit("passData", results.data);
-            const file = results.meta.fields;
-            this.$emit("passDataFile", file);
+            console.log(typeof results.data)
+            this.$emit('passData', results.data)
+            const file = results.meta.fields
+            this.$emit('passDataFile', file)
           }
-        });
+        })
       }
       // this.$emit('passData', arrayResults)
     }
   }
-};
+}
 </script>
 
 <style lang='scss'>

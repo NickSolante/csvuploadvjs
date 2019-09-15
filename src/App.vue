@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Core from './core/Core';
+import Core from './core/Core'
 
 export default {
   name: 'App',

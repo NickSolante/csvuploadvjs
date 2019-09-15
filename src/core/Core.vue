@@ -42,11 +42,12 @@
 </template>
 
 <script>
-import Uploads from './Uploads';
-import Header from '../components/layout/Header';
-import CsvHeaders from './CsvHeaders';
-import functionalButton from './functionalButton';
-import Papa from 'papaparse';
+import Uploads from './Uploads'
+import Header from '../components/layout/Header'
+import CsvHeaders from './CsvHeaders'
+import functionalButton from './functionalButton'
+import databaseHubs from '../database/database_hubs.json'
+import Papa from 'papaparse'
 
 export default {
   name: 'App',
@@ -67,9 +68,6 @@ export default {
     }
   },
   watch: {
-    // dataSet: function(data) {
-    //   console.table(data);
-    // },
 
     newHeader: function (data) {
       console.log('this is coming from the core')
@@ -78,7 +76,17 @@ export default {
     }
   },
   methods: {
-    ZoneFunc (val) {},
+    ZoneFunc (val) { },
+    // GetCarrierLocations () {
+    //   fetch('../database/database_locations.json')
+    //     // .then(resp => resp.json())
+    //     .then(resp => resp.json())
+    //     .then(json => {
+    //       let thing = json.headers
+    //       console.table(thing)
+    //       return thing
+    //     })
+    // },
     filterIt (headers, largeDataSet) {
       const result = largeDataSet.map(data => {
         const wantedData = {}
@@ -89,77 +97,12 @@ export default {
 
         return wantedData
       })
-
+      let hello = this.GetCarrierLocations()
+      console.table(hello)
       console.log(result)
-
-      // must configure to run map and filter
-      // var words = [
-      //   { nick: 1, age: 1 },
-      //   { nick: 2, age: 2 },
-      //   { nick: 3, age: 3 }
-      // ]
-      // const head = ['nick', 'age']
-      // const result = words.map(words => {
-      //   return Object.keys(words).filter(
-      //     key => key === head.map(head => head.value)
-      //   )
-      // })
-
-      // console.log(result)
-      // expected output: Array ["exuberant", "destruction", "present"]
-    },
-    CarrierTimesExtended () {
-      let blob = new ([export_carrier_times_extended()],
-      { type: 'text/csv' })()
-      generateDownload(
-        blob,
-        'download-btn',
-        filename + '-extendedCarrierTimes'
-      )
-    },
-
-    export_carrier_times_extended () {
-      console.log(this.largeDataSet)
-      let data = this.largeDataSet.map(element => ({
-        uuid: element.uuid,
-        carrier_id: element.carrier_id,
-        service_id: element.service_id,
-        zone_id: element.zone_id,
-        location_id: element.location_id,
-        travel_time: element.travel_time,
-        travel_time_min: element.travel_time_min,
-        travel_time_max: element.travel_time_max
-      }))
-      console.log(data)
-      return Papa.unparse(data)
-    },
-
-    findLocationByPostcode (postcode, country, town) {
-      console.log('pct ' + postcode + country + town)
-
-      if (!postcode || !country || !town) {
-        buildAlert(
-          null,
-          `${postcode || ''} ${country || ''} ${town || ''}`,
-          'missing-keys'
-        )
-      }
-
-      let filteredArray = db_locations.filter(data => {
-        return (
-          data.location_postcode == postcode &&
-          data.location_country == country &&
-          data.location_town == town.toUpperCase()
-        )
-      })
-
-      if (filteredArray.length < 1) {
-        return 'NO_LOCATION_FOUND';
-      } else {
-        return filteredArray[0].location_id
-      }
     }
   }
+
 }
 </script>
 
