@@ -47,6 +47,8 @@ import Header from '../components/layout/Header'
 import CsvHeaders from './CsvHeaders'
 import functionalButton from './functionalButton'
 import databaseHubs from '../database/database_hubs.json'
+import databaseLocations from '../database/database_locations.json'
+import databaseZone from '../database/db_zones.json'
 import Papa from 'papaparse'
 
 export default {
@@ -64,14 +66,18 @@ export default {
       headerOnFiles: {},
       newHeader: [],
       filteredCsv: [],
-      vueVar: 0
+      vueVar: 0,
+      dbHubs: databaseHubs,
+      dbZones: databaseZone,
+      dbLocations: databaseLocations
     }
   },
   watch: {
 
     newHeader: function (data) {
       console.log('this is coming from the core')
-      this.filteredCsv = this.filterIt(data, this.dataSet)
+      // this.filteredCsv = this.filterIt(data, this.dataSet)
+      console.log(this.dbHubs)
       this.vueVar = 1
     }
   },
