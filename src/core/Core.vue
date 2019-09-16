@@ -81,6 +81,9 @@ export default {
       this.vueVar = 1
     }
   },
+  created () {
+    console.table(this.dbLocations)
+  },
   methods: {
     ZoneFunc (val) { },
     // GetCarrierLocations () {
