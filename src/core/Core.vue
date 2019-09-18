@@ -36,7 +36,10 @@
         <!-- throw in an empty column -->
         <b-col />
       </b-row>
-      <functionalButton :ransak="vueVar" />
+      <functionalButton
+        :ransak="vueVar"
+        :filtered="filteredCsv"
+      />
     </b-container>
   </div>
 </template>
@@ -65,37 +68,24 @@ export default {
       dataSet: {},
       headerOnFiles: {},
       newHeader: [],
-      filteredCsv: [],
+      filteredCsv: {},
       vueVar: 0,
-      dbHubs: databaseHubs,
-      dbZones: databaseZone,
-      dbLocations: databaseLocations
+      dbHubs: {},
+      dbZones: {},
+      dbLocations: {}
     }
   },
   watch: {
 
     newHeader: function (data) {
       console.log('this is coming from the core')
-      // this.filteredCsv = this.filterIt(data, this.dataSet)
-      console.log(this.dbHubs)
+      this.filteredCsv = this.filterIt(data, this.dataSet)
+      console.log('hello world filter works ' + JSON.stringify(this.filteredCsv))
       this.vueVar = 1
     }
   },
-  created () {
-    console.table(this.dbLocations)
-  },
   methods: {
     ZoneFunc (val) { },
-    // GetCarrierLocations () {
-    //   fetch('../database/database_locations.json')
-    //     // .then(resp => resp.json())
-    //     .then(resp => resp.json())
-    //     .then(json => {
-    //       let thing = json.headers
-    //       console.table(thing)
-    //       return thing
-    //     })
-    // },
     filterIt (headers, largeDataSet) {
       const result = largeDataSet.map(data => {
         const wantedData = {}
@@ -106,9 +96,8 @@ export default {
 
         return wantedData
       })
-      let hello = this.GetCarrierLocations()
-      console.table(hello)
       console.log(result)
+      return result
     }
   }
 

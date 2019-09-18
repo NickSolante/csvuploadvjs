@@ -65,7 +65,16 @@ export default {
       default: () => {
         return []
       }
+    },
+    filtered: {
+      type: Object,
+      default: () => {
+        return []
+      }
     }
+  },
+  mounted () {
+    console.log('this is coming from functional button to check if filtered is passed' + this.filtered)
   },
   methods: {
     ZoneFunc (number) {
@@ -79,7 +88,7 @@ export default {
       }
     },
     carrierTimes () {
-      console.log('hello')
+
     },
     GetUUID () {
       var seed = Date.now()
